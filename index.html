@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Criminal - Roubo de Veículos em Jardim Sulacap</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#151f32',
+                            900: '#0f172a',
+                            950: '#090d16'
+                        },
+                        danger: {
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            900: '#450a0a'
+                        },
+                        warning: {
+                            500: '#f59e0b',
+                            600: '#d97706'
+                        },
+                        accent: {
+                            500: '#3b82f6',
+                            600: '#2563eb'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for dark layout */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-danger-500 selection:text-white">
+
+    <!-- TOP HEADER -->
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-danger-600/20 text-danger-500 rounded-xl border border-danger-500/30">
+                    <i class="fa-solid font-bold fa-shield-halved text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+                        Inteligência & Análise Criminal
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-400">
+                        Roubo de Veículos — Jardim Sulacap (Janeiro a Outubro de 2026)
+                    </p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Dados Consolidados
+                </span>
+                <button onclick="window.print()" class="px-3 py-1.5 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-print"></i> Exportar / Imprimir
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- KPI SUMMARY CARDS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Card 1: Total Incidents -->
+            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 hover:border-slate-700 transition shadow-lg relative overflow-hidden group">
+                <div class="absolute right-3 top-3 opacity-10 group-hover:opacity-20 transition text-danger-500">
+                    <i class="fa-solid fa-car text-6xl"></i>
+                </div>
+                <div class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">
+                    Roubos de Veículos
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-3xl font-extrabold text-white">36</span>
+                    <span class="text-xs text-slate-400 font-medium">casos no período</span>
+                </div>
+                <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                    <span>Motos: <strong class="text-slate-200">8</strong></span>
+                    <span>Carros: <strong class="text-slate-200">28</strong></span>
+                    <span>Total Geral: <strong class="text-slate-200">65*</strong></span>
+                </div>
+            </div>
+
+            <!-- Card 2: Critical Hour -->
+            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 hover:border-slate-700 transition shadow-lg relative overflow-hidden group">
+                <div class="absolute right-3 top-3 opacity-10 group-hover:opacity-20 transition text-warning-500">
+                    <i class="fa-solid fa-clock text-6xl"></i>
+                </div>
+                <div class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">
+                    Turno Mais Crítico
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-3xl font-extrabold text-warning-500">Madrugada</span>
+                </div>
+                <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs">
+                    <span class="text-slate-400">0h às 5h59</span>
+                    <span class="font-semibold text-warning-400 bg-warning-500/10 px-2 py-0.5 rounded border border-warning-500/20">16 casos (44,4%)</span>
+                </div>
+            </div>
+
+            <!-- Card 3: Top Risk Street -->
+            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 hover:border-slate-700 transition shadow-lg relative overflow-hidden group">
+                <div class="absolute right-3 top-3 opacity-10 group-hover:opacity-20 transition text-danger-500">
+                    <i class="fa-solid fa-road text-6xl"></i>
+                </div>
+                <div class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">
+                    Maior Corredor de Risco
+                </div>
+                <div class="truncate text-xl font-bold text-white title="Estrada do Catonho">
+                    Estrada do Catonho
+                </div>
+                <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                    <span>Liderança de ocorrências</span>
+                    <span class="font-semibold text-danger-400 bg-danger-500/10 px-2 py-0.5 rounded border border-danger-500/20">7 roubos (19,4%)</span>
+                </div>
+            </div>
+
+            <!-- Card 4: Residential Target Pattern -->
+            <div class="bg-slate-900 rounded-xl p-5 border border-slate-800 hover:border-slate-700 transition shadow-lg relative overflow-hidden group">
+                <div class="absolute right-3 top-3 opacity-10 group-hover:opacity-20 transition text-accent-500">
+                    <i class="fa-solid fa-house-user text-6xl"></i>
+                </div>
+                <div class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-1">
+                    Foco Vias Residenciais
+                </div>
+                <div class="text-3xl font-extrabold text-accent-500">
+                    00h — 02h
+                </div>
+                <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                    <span>Ruas internas secundárias</span>
+                    <span class="font-semibold text-accent-400 bg-accent-500/10 px-2 py-0.5 rounded border border-accent-500/20">100% Madrugada</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CHARTS SECTION - ROW 1 -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Donut Chart: Time Distribution -->
+            <div class="lg:col-span-4 bg-slate-900 p-5 rounded-xl border border-slate-800 flex flex-col justify-between shadow-lg">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="font-semibold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-chart-pie text-accent-500"></i> Distribuição por Horário
+                        </h2>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4">Concentração das abordagens criminais por faixa horária do dia.</p>
+                </div>
+                <div class="relative flex-1 flex items-center justify-center min-h-[240px]">
+                    <canvas id="timeDonutChart"></canvas>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-800 text-xs text-slate-400 text-center">
+                    <i class="fa-solid fa-circle-info text-accent-400 mr-1"></i> Madrugada e Noite somam <strong>74,9%</strong> de todos os roubos.
+                </div>
+            </div>
+
+            <!-- Horizontal Bar: Top Locations -->
+            <div class="lg:col-span-8 bg-slate-900 p-5 rounded-xl border border-slate-800 flex flex-col justify-between shadow-lg">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="font-semibold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-chart-bar text-danger-500"></i> Top Logradouros Atingidos
+                        </h2>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4">Ruas e estradas com maior número acumulado de registros no bairro.</p>
+                </div>
+                <div class="relative flex-1 min-h-[250px]">
+                    <canvas id="locationsBarChart"></canvas>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- CHARTS SECTION - ROW 2: CROSS ANALYSIS -->
+        <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-lg">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
+                <div>
+                    <h2 class="font-semibold text-white text-base flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-warning-500"></i> Matriz Cruzada: Logradouros vs. Faixas Horárias
+                    </h2>
+                    <p class="text-xs text-slate-400">Comparativo entre Vias de Escoamento (Trânsito) e Ruas Internas Residenciais.</p>
+                </div>
+                <div class="flex items-center gap-2 text-xs">
+                    <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                        <i class="fa-solid fa-road text-amber-400 mr-1"></i> Vias Principais = Tarde/Noite
+                    </span>
+                    <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">
+                        <i class="fa-solid fa-house text-purple-400 mr-1"></i> Residenciais = Madrugada
+                    </span>
+                </div>
+            </div>
+            <div class="relative min-h-[300px] w-full">
+                <canvas id="crossAnalysisChart"></canvas>
+            </div>
+        </div>
+
+        <!-- DETAILED TABLE & STRATEGIC INSIGHTS -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Interactive Table -->
+            <div class="lg:col-span-7 bg-slate-900 p-5 rounded-xl border border-slate-800 flex flex-col justify-between shadow-lg">
+                <div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                        <h2 class="font-semibold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-table-list text-slate-400"></i> Detalhamento de Logradouros
+                        </h2>
+                        <!-- Search Filter -->
+                        <div class="relative w-full sm:w-64">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-500"></i>
+                            <input type="text" id="searchInput" placeholder="Filtrar logradouro..." 
+                                   class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-accent-500 transition">
+                        </div>
+                    </div>
+
+                    <!-- Table Wrapper -->
+                    <div class="overflow-x-auto max-h-[360px] overflow-y-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead class="bg-slate-950 sticky top-0 border-b border-slate-800 text-slate-400 font-semibold">
+                                <tr>
+                                    <th class="py-2.5 px-3">Logradouro</th>
+                                    <th class="py-2.5 px-3">Perfil da Via</th>
+                                    <th class="py-2.5 px-3 text-center">Turno Predominante</th>
+                                    <th class="py-2.5 px-3 text-right">Ocorrências</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody" class="divide-y divide-slate-800/60 text-slate-300">
+                                <!-- JavaScript populates rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                    <span id="rowCount">Exibindo 11 vias principais</span>
+                    <span>Total: 36 ocorrências</span>
+                </div>
+            </div>
+
+            <!-- Strategic Insights / Police Recommendations -->
+            <div class="lg:col-span-5 bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-lg flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="font-semibold text-white text-base flex items-center gap-2">
+                            <i class="fa-solid fa-brain text-emerald-400"></i> Diagnóstico & Recomendações
+                        </h2>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            Tático
+                        </span>
+                    </div>
+
+                    <div class="space-y-3 text-xs leading-relaxed text-slate-300">
+                        <!-- Point 1 -->
+                        <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800 space-y-1">
+                            <div class="font-semibold text-amber-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-car-side"></i> Corredores Principais (Catonho & Alberico Diniz)
+                            </div>
+                            <p class="text-slate-400">
+                                <strong>Padrão:</strong> Roubos concentrados à <strong>tarde e à noite (12h às 23h59)</strong>, aproveitando a retenção de tráfego nos horários de pico.
+                            </p>
+                            <p class="text-emerald-400 font-medium">
+                                <strong>Ação Recomendada:</strong> Ponto de Seletiva/Blitz móvel nos horários de pico e reforço de patrulhamento ostensivo com motos (RPM/GAM).
+                            </p>
+                        </div>
+
+                        <!-- Point 2 -->
+                        <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800 space-y-1">
+                            <div class="font-semibold text-purple-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-moon"></i> Interiores Residenciais (Sílio Bocanera, Barreirinhas, etc.)
+                            </div>
+                            <p class="text-slate-400">
+                                <strong>Padrão:</strong> <strong>100% dos eventos ocorrem de Madrugada (0h às 5h59)</strong>, com alta densidade entre 00h e 02h. Alvo em moradores chegando em casa.
+                            </p>
+                            <p class="text-emerald-400 font-medium">
+                                <strong>Ação Recomendada:</strong> Rondas ostensivas noturnas com sirene/giroflex acionados nos trechos residenciais entre 23h30 e 03h00.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-500 flex items-center gap-2">
+                    <i class="fa-solid fa-shield-cat text-slate-400 text-sm"></i>
+                    <span>Relatório interno consolidado com base nas ocorrências de 01/2026 a 10/2026.</span>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 border-t border-slate-800 mt-8 py-4 text-center text-xs text-slate-500">
+        <p>Dashboard de Inteligência Operacional — Análise Criminal de Roubos de Veículos (Jardim Sulacap 2026)</p>
+        <p class="text-[11px] text-slate-600 mt-1">* Nota: O total de 65 casos no relatório inclui roubos a transeunte e aparelhos celulares.</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // DATASETS
+        const rawLocations = [
+            { name: 'Estrada do Catonho', total: 7, type: 'Corredor Principal', focus: 'Tarde / Noite', mad: 0, tar: 3, noi: 3, man: 1 },
+            { name: 'Avenida Alberico Diniz', total: 4, type: 'Corredor Principal', focus: 'Noite', mad: 1, tar: 0, noi: 3, man: 0 },
+            { name: 'Rua Sílio Bocanera', total: 3, type: 'Residencial', focus: 'Madrugada (00h-02h)', mad: 3, tar: 0, noi: 0, man: 0 },
+            { name: 'Rua Barreirinhas', total: 2, type: 'Residencial', focus: 'Madrugada', mad: 2, tar: 0, noi: 0, man: 0 },
+            { name: 'Rua Vicente Neiva', total: 2, type: 'Residencial', focus: 'Madrugada', mad: 2, tar: 0, noi: 0, man: 0 },
+            { name: 'Rua Vila Velha', total: 2, type: 'Residencial', focus: 'Madrugada', mad: 2, tar: 0, noi: 0, man: 0 },
+            { name: 'Rua Capistrano', total: 2, type: 'Residencial', focus: 'Madrugada', mad: 2, tar: 0, noi: 0, man: 0 },
+            { name: 'Rua Alagoinha', total: 2, type: 'Secundária', focus: 'Misto', mad: 1, tar: 1, noi: 0, man: 0 },
+            { name: 'Rua Fernandes Sampaio', total: 2, type: 'Secundária', focus: 'Misto', mad: 1, tar: 0, noi: 1, man: 0 },
+            { name: 'Estrada Japoré', total: 2, type: 'Corredor Conector', focus: 'Noite', mad: 0, tar: 1, noi: 1, man: 0 },
+            { name: 'Rua Euzébio de Almeida', total: 2, type: 'Residencial', focus: 'Madrugada', mad: 2, tar: 0, noi: 0, man: 0 }
+        ];
+
+        // 1. DONUT CHART (Time Slot Distribution)
+        const initTimeDonutChart = () => {
+            const ctx = document.getElementById('timeDonutChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Madrugada (0h-5h59)', 'Noite (18h-23h59)', 'Tarde (12h-17h59)', 'Manhã (6h-11h59)'],
+                    datasets: [{
+                        data: [16, 11, 7, 2],
+                        backgroundColor: [
+                            '#8b5cf6', // purple (madrugada)
+                            '#ef4444', // red (noite)
+                            '#f59e0b', // amber (tarde)
+                            '#3b82f6'  // blue (manha)
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#0f172a'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#94a3b8',
+                                font: { size: 11 },
+                                boxWidth: 12,
+                                padding: 12
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const value = context.raw;
+                                    const percentage = ((value / 36) * 100).toFixed(1);
+                                    return ` ${context.label}: ${value} casos (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        };
+
+        // 2. HORIZONTAL BAR CHART (Top Locations)
+        const initLocationsBarChart = () => {
+            const ctx = document.getElementById('locationsBarChart').getContext('2d');
+            
+            // Sorted by total
+            const sortedData = [...rawLocations].sort((a, b) => b.total - a.total);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sortedData.map(item => item.name),
+                    datasets: [{
+                        label: 'Número de Roubos de Veículos',
+                        data: sortedData.map(item => item.total),
+                        backgroundColor: sortedData.map(item => 
+                            item.type.includes('Corredor') ? '#ef4444' : '#6366f1'
+                        ),
+                        borderRadius: 6,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    const item = sortedData[context.dataIndex];
+                                    return `Perfil: ${item.type}\nTurno Predominante: ${item.focus}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: '#1e293b' },
+                            ticks: { color: '#94a3b8', stepSize: 1 }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: '#cbd5e1', font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+        };
+
+        // 3. STACKED BAR CHART (Cross Analysis: Street vs Time)
+        const initCrossAnalysisChart = () => {
+            const ctx = document.getElementById('crossAnalysisChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: rawLocations.map(item => item.name),
+                    datasets: [
+                        {
+                            label: 'Madrugada (0h-5h59)',
+                            data: rawLocations.map(item => item.mad),
+                            backgroundColor: '#8b5cf6'
+                        },
+                        {
+                            label: 'Manhã (6h-11h59)',
+                            data: rawLocations.map(item => item.man),
+                            backgroundColor: '#3b82f6'
+                        },
+                        {
+                            label: 'Tarde (12h-17h59)',
+                            data: rawLocations.map(item => item.tar),
+                            backgroundColor: '#f59e0b'
+                        },
+                        {
+                            label: 'Noite (18h-23h59)',
+                            data: rawLocations.map(item => item.noi),
+                            backgroundColor: '#ef4444'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { color: '#94a3b8', font: { size: 11 }, boxWidth: 12 }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8', font: { size: 10 }, autoSkip: false, maxRotation: 45, minRotation: 45 }
+                        },
+                        y: {
+                            stacked: true,
+                            grid: { color: '#1e293b' },
+                            ticks: { color: '#94a3b8', stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        };
+
+        // 4. POPULATE & FILTER TABLE
+        const renderTable = (data) => {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-800/50 transition';
+
+                // Badge colors for types
+                let typeBadge = 'bg-slate-800 text-slate-300 border-slate-700';
+                if (item.type.includes('Corredor')) typeBadge = 'bg-danger-500/10 text-danger-400 border-danger-500/20';
+                else if (item.type === 'Residencial') typeBadge = 'bg-purple-500/10 text-purple-400 border-purple-500/20';
+
+                // Badge colors for focus
+                let focusBadge = 'text-slate-300';
+                if (item.focus.includes('Madrugada')) focusBadge = 'text-purple-400 font-semibold';
+                else if (item.focus.includes('Noite')) focusBadge = 'text-danger-400 font-semibold';
+                else if (item.focus.includes('Tarde')) focusBadge = 'text-warning-400 font-semibold';
+
+                tr.innerHTML = `
+                    <td class="py-2.5 px-3 font-medium text-white flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-slate-500"></i>
+                        ${item.name}
+                    </td>
+                    <td class="py-2.5 px-3">
+                        <span class="px-2 py-0.5 rounded border text-[11px] ${typeBadge}">
+                            ${item.type}
+                        </span>
+                    </td>
+                    <td class="py-2.5 px-3 text-center ${focusBadge}">
+                        ${item.focus}
+                    </td>
+                    <td class="py-2.5 px-3 text-right font-bold text-white">
+                        ${item.total}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('rowCount').textContent = `Exibindo ${data.length} de ${rawLocations.length} logradouros`;
+        };
+
+        // SEARCH INPUT FILTER
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = rawLocations.filter(item => 
+                item.name.toLowerCase().includes(term) || 
+                item.type.toLowerCase().includes(term) || 
+                item.focus.toLowerCase().includes(term)
+            );
+            renderTable(filtered);
+        });
+
+        // INITIALIZE ALL COMPONENTS ON LOAD
+        window.addEventListener('load', () => {
+            initTimeDonutChart();
+            initLocationsBarChart();
+            initCrossAnalysisChart();
+            renderTable(rawLocations);
+        });
+    </script>
+</body>
+</html>
