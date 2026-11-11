@@ -240,7 +240,7 @@
             gap: 6px;
         }
 
-        /* 2 Column Charts Grid */
+        /* 2 Column Charts Grid with increased spacing */
         .charts-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -304,7 +304,7 @@
             grid-column: 1 / -1;
         }
 
-        /* Contramedidas Section */
+        /* Contramedidas Section with spacing */
         .insights-panel {
             background-color: var(--bg-card);
             padding: 28px;
@@ -378,19 +378,6 @@
             color: var(--text-main);
         }
 
-        .action-tag {
-            display: inline-block;
-            margin-top: 6px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .blue-accent .action-tag { background: var(--accent-blue-glow); color: var(--accent-blue); border: 1px solid rgba(59,130,246,0.3); }
-        .amber-accent .action-tag { background: var(--accent-amber-glow); color: var(--accent-amber); border: 1px solid rgba(245,158,11,0.3); }
-
         /* Footer */
         .footer-source {
             text-align: center;
@@ -421,15 +408,7 @@
     <!-- Header -->
     <div class="header-container">
         <div class="header-titles">
-            <h1><svg xmlns="http://www.w3.org/2000/svg" width="40" height="48" viewBox="0 0 100 120" style="vertical-align: middle; margin-right: 12px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
-  <path d="M50 4 L12 24 V60 C12 88 50 114 50 114 C50 114 88 88 88 60 V24 Z" fill="#0245a3" stroke="#eab308" stroke-width="4"/>
-  <circle cx="50" cy="54" r="28" fill="#0284c7" stroke="#ffffff" stroke-width="3"/>
-  <path d="M22 54 C35 38 65 38 78 54 C65 70 35 70 22 54 Z" fill="#16a34a" opacity="0.85"/>
-  <circle cx="50" cy="54" r="12" fill="#f59e0b"/>
-  <line x1="50" y1="26" x2="50" y2="82" stroke="#ffffff" stroke-width="3"/>
-  <line x1="22" y1="54" x2="78" y2="54" stroke="#ffffff" stroke-width="3"/>
-  <polygon points="50,38 58,48 50,58 42,48" fill="#ffffff"/>
-</svg> Análise Criminal - Roubo de Veículos</h1>
+            <h1>Análise Criminal - Roubo de Veículos</h1>
             <p><i class="fa-solid fa-location-dot" style="color: var(--accent-blue);"></i> Bairro Jardim Sulacap (Janeiro a Outubro de 2026)</p>
         </div>
         <div class="header-status-badge">
@@ -459,7 +438,7 @@
             </div>
             <div class="kpi-value-group">
                 <span class="kpi-value" style="color: var(--accent-amber);">Madrugada</span>
-                <span class="kpi-badge-tag">Pico 44.4%</span>
+                <span class="kpi-badge-tag">44,4% das ocorrências analisadas</span>
             </div>
             <span class="kpi-sub"><i class="fa-solid fa-clock"></i> 16 casos entre 0h e 5h59</span>
         </div>
@@ -471,19 +450,18 @@
             </div>
             <div class="kpi-value-group">
                 <span class="kpi-value" style="color: var(--accent-blue);">Est. do Catonho</span>
-                
             </div>
             <span class="kpi-sub"><i class="fa-solid fa-triangle-exclamation"></i> 7 ocorrências registradas</span>
         </div>
 
         <div class="kpi-card emerald">
             <div class="kpi-header">
-                <span class="kpi-title">Pico Residencial</span>
+                <span class="kpi-title">Foco Residencial</span>
                 <div class="kpi-icon-box"><i class="fa-solid fa-house-lock"></i></div>
             </div>
             <div class="kpi-value-group">
                 <span class="kpi-value" style="color: var(--accent-emerald);">00:00 - 02:00</span>
-                <span class="kpi-badge-tag">75% das ocorrências</span>
+                <span class="kpi-badge-tag">75% das ocorrências em locais desta natureza</span>
             </div>
             <span class="kpi-sub"><i class="fa-solid fa-bullseye"></i> Concentração em vias locais</span>
         </div>
@@ -529,14 +507,12 @@
                 <h4><i class="fa-solid fa-route" style="color: var(--accent-blue);"></i> Vias de Escoamento (Catonho / Alberico Diniz)</h4>
                 <p><strong>Padrão:</strong> Concentram roubos de veículo no período da tarde e noite (12h às 23h59).</p>
                 <p><strong>Ação:</strong> Abordagens nos horários de pico e reforço ostensivo no fluxo de retorno.</p>
-                
             </div>
 
             <div class="insight-card amber-accent">
                 <h4><i class="fa-solid fa-shield-dog" style="color: var(--accent-amber);"></i> Ruas Residenciais Secundárias</h4>
                 <p><strong>Padrão:</strong> Concentração de 100% das ocorrências no período da madrugada (0h às 5h59).</p>
-                <p><strong>Ação:</strong> Rondas preventivas ostensivas no miolo residencial entre 00:00 e 03:00.</p>
-                
+                <p><strong>Ação:</strong> Rondas preventivas ostensivas no centro residencial entre 00:00 e 03:00.</p>
             </div>
         </div>
     </div>
